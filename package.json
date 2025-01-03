@@ -1,31 +1,4 @@
 {
   "name": "gkv",
-  "version": "0.0.1",
-  "description": "Self-hosted KV for Google Cloud",
-  "type": "module",
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc",
-    "deploy": "gcloud functions deploy gkv --runtime nodejs18 --trigger-http --entry-point gkv --set-env-vars GCS_BUCKET_NAME=gkv-test",
-    "dev": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"pnpm run dev:compile\" \"pnpm run dev:serve\"",
-    "dev:compile": "NODE_ENV=development tsc --watch --resolveJsonModule",
-    "dev:serve": "NODE_ENV=development nodemon --watch ./dist/ --exec pnpm run preview",
-    "preview": "functions-framework --source ./dist --target gkv --port 8080"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@google-cloud/functions-framework": "^3.4.4",
-    "@google-cloud/storage": "^7.14.0",
-    "deepmerge-ts": "^7.1.3",
-    "valibot": "1.0.0-beta.9"
-  },
-  "devDependencies": {
-    "@types/node": "^22.10.3",
-    "concurrently": "^9.1.2",
-    "nodemon": "^3.1.9",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
-  }
+  "version": "0.0.0"
 }
