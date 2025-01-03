@@ -16,7 +16,7 @@
   "dependencies": {
     "@google-cloud/functions-framework": "^3.4.5",
     "@google-cloud/storage": "^7.14.0",
-    "@hacksaw-software/gkv": "workspace:^",
+    "@hacksaw/gkv": "workspace:^",
     "valibot": "1.0.0-beta.9"
   },
   "devDependencies": {

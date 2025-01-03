@@ -1,5 +1,5 @@
 {
-  "name": "@hacksaw-software/gkv",
+  "name": "@hacksaw/gkv",
   "version": "0.0.1",
   "description": "KV for Google Cloud, backed by Cloud Storage",
   "type": "module",

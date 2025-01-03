@@ -2,15 +2,15 @@ KV for Google Cloud, backed by Cloud Storage
 
 ## Installation
 ```shell
-npm install @hacksaw-software/gkv
-pnpm add @hacksaw-software/gkv
-yarn add @hacksaw-software/gkv
+npm install @hacksaw/gkv
+pnpm add @hacksaw/gkv
+yarn add @hacksaw/gkv
 ```
 
 ## Usage
 ```typescript
 import { Storage } from '@google-cloud/storage';
-import { GKV } from '@hacksaw-software/gkv';
+import { GKV } from '@hacksaw/gkv';
 
 const bucket = "my-bucket"
 const storage = new Storage();
