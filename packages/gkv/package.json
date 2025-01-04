@@ -12,11 +12,12 @@
     "format": "pnpm biome format",
     "format:fix": "pnpm biome format --write",
     "lint": "pnpm biome lint",
-    "lint:fix": "pnpm biome lint --write"
+    "lint:fix": "pnpm biome lint --write",
+    "prepublish": "tsc"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@google-cloud/logging": "^11.2.0",
     "@google-cloud/storage": "^7.14.0",
