@@ -8,7 +8,11 @@
   "scripts": {
     "build": "tsc",
     "build:docs": "pnpm exec typedoc src/index.ts --plugin typedoc-github-theme",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "format": "pnpm biome format",
+    "format:fix": "pnpm biome format --write",
+    "lint": "pnpm biome lint",
+    "lint:fix": "pnpm biome lint --write"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +22,7 @@
     "deepmerge-ts": "^7.1.3"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@types/node": "^22.10.3",
     "concurrently": "^9.1.2",
     "nodemon": "^3.1.9",
