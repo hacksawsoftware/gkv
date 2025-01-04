@@ -2,7 +2,7 @@
 
 KV for Google Cloud, backed by Cloud Storage
 
-Full generated docs are available at [https://gkv.hacksaw.software]
+Full generated docs are available at [gkv.hacksaw.software](https://gkv.hacksaw.software)
 
 ## Installation
 ```shell
