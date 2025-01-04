@@ -23,3 +23,7 @@ const value = await kv.get("my-key")
 
 console.log(value) // 'some value'
 ```
+
+> [!NOTE]
+> Visit [Github](https://github.com/hacksawsoftware/gkv/tree/main/examples) to see more examples
+

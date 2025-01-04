@@ -9,7 +9,8 @@ export class GKV<K = string, V = unknown> {
 	 */
 	bucket: string;
 	/**
-	 * A log to write to in Google Cloud Logging
+	 * A log to write to in Google Cloud Logging. 
+   * See docs [here](https://github.com/googleapis/nodejs-logging?tab=readme-ov-file#using-the-client-library)
 	 */
 	log?: ReturnType<Logging["log"]> | undefined = undefined;
 	/**
@@ -17,7 +18,8 @@ export class GKV<K = string, V = unknown> {
 	 */
 	namespace = "default";
 	/**
-	 * A [Storage](https://www.npmjs.com/package/@google-cloud/storage) instance.
+	 * A Storage instance.
+   * See docs [here](https://github.com/googleapis/nodejs-logging?tab=readme-ov-file#using-the-client-library)
 	 */
 	storage: Storage;
 	/**
