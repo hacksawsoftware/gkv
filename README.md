@@ -1,4 +1,5 @@
 # @hacksaw/gkv
+[![npm version](https://badge.fury.io/js/@hacksaw%2Fgkv.svg?icon=si%3Anpm)](https://badge.fury.io/js/@hacksaw%2Fgkv)
 
 KV for Google Cloud, backed by Cloud Storage
 
