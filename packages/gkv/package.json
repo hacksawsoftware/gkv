@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/logging": "^11.2.0",
     "@google-cloud/storage": "^7.14.0",
     "deepmerge-ts": "^7.1.3"
   },
