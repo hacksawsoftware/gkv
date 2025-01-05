@@ -1,6 +1,6 @@
 {
   "name": "@hacksaw/gkv",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "KV for Google Cloud, backed by Cloud Storage",
   "type": "module",
   "main": "dist/index.js",
@@ -16,8 +16,12 @@
     "prepublish": "tsc"
   },
   "keywords": [],
-  "author": "",
+  "author": "jacob@hacksaw.software",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hacksawsoftware/gkv.git"
+  },
   "dependencies": {
     "@google-cloud/logging": "^11.2.0",
     "@google-cloud/storage": "^7.14.0",
