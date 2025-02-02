@@ -1,7 +1,7 @@
 import { Storage } from '@google-cloud/storage';
 import { HttpFunction, Response } from '@google-cloud/functions-framework';
 import * as v from 'valibot';
-import { GKV } from '@hacksaw-software/gkv';
+import { GKV } from '@hacksaw/gkv';
 
 const storage = new Storage();
 const bucketName = process.env.GCS_BUCKET_NAME ?? "gkv-test";

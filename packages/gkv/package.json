@@ -1,10 +1,13 @@
 {
   "name": "@hacksaw/gkv",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "KV for Google Cloud, backed by Cloud Storage",
   "type": "module",
-  "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "types": "dist/types/index.d.ts",
+  "files": ["./dist/**"],
   "scripts": {
     "build": "tsc",
     "build:docs": "pnpm exec typedoc src/index.ts --plugin typedoc-github-theme",

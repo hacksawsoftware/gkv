@@ -9,40 +9,43 @@ export class GKV<K = string, V = unknown> {
 	 */
 	bucket: string;
 	/**
-	 * A log to write to in Google Cloud Logging. 
-   * See docs [here](https://github.com/googleapis/nodejs-logging?tab=readme-ov-file#using-the-client-library)
+	 * A log to write to in Google Cloud Logging.
+	 * See docs [here](https://github.com/googleapis/nodejs-logging?tab=readme-ov-file#using-the-client-library)
 	 */
-	log?: ReturnType<Logging["log"]> | undefined = undefined;
+	log?: ReturnType<Logging["log"]>;
 	/**
 	 * A namespace ensures the data from your service is isolated in a direct child directory of the bucket
 	 */
 	namespace = "default";
 	/**
 	 * A Storage instance.
-   * See docs [here](https://github.com/googleapis/nodejs-logging?tab=readme-ov-file#using-the-client-library)
+	 * See docs [here](https://github.com/googleapis/nodejs-logging?tab=readme-ov-file#using-the-client-library)
 	 */
 	storage: Storage;
 	/**
 	 * A function for constructing paths to the stored data.
 	 */
-	getBlobPath: (namespace: string, key: K) => string;
+	getBlobPath: (namespace: string, key: K) => string = (
+		namespace: string,
+		key: K,
+	) => `${namespace}/${key}.json`;
 
 	constructor({
 		bucket,
 		log,
-		getBlobPath = (namespace: string, key: K) => `${namespace}/${key}.json`,
+		getBlobPath,
 		namespace,
 		storage,
 	}: {
 		bucket: string;
-		log: ReturnType<Logging["log"]>;
+		log?: ReturnType<Logging["log"]>;
 		getBlobPath?: (namespace: string, key: K) => string;
 		namespace?: string;
 		storage: Storage;
 	}) {
 		this.bucket = bucket;
 		if (log) this.log = log;
-		this.getBlobPath = getBlobPath;
+		if (getBlobPath) this.getBlobPath = getBlobPath;
 		if (namespace) this.namespace = namespace;
 		this.storage = storage;
 	}

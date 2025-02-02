@@ -7,9 +7,16 @@ Full generated docs are available at [gkv.hacksaw.software](https://gkv.hacksaw.
 
 ## Installation
 ```shell
+# via npm
 npm install @hacksaw/gkv
 pnpm add @hacksaw/gkv
 yarn add @hacksaw/gkv
+
+# via jsr
+npx jsr add @hacksaw/gkv
+pnpm dlx jsr add @hacksaw/gkv
+yarn dlx jsr add @hacksaw/gkv
+deno add jsr:@hacksaw/gkv
 ```
 
 ## Usage
@@ -30,3 +37,6 @@ const value = await kv.get("my-key")
 console.log(value) // 'some value'
 ```
 
+## Examples
+
+Checkout examples in the /examples directory
