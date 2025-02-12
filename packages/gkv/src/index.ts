@@ -1,13 +1,33 @@
 import type { Logging } from "@google-cloud/logging";
 import type { LogSeverity } from "@google-cloud/logging/build/src/entry";
 import type { Storage } from "@google-cloud/storage";
+import type {StandardSchemaV1} from '@standard-schema/spec';
 import { deepmerge } from "deepmerge-ts";
 
-export class GKV<K = string, V = unknown> {
+type GKVOptions<S extends StandardSchemaV1 | undefined> = {
+  bucket: string;
+  getBlobPath?: (namespace: string, key: string) => string;
+  log?: ReturnType<Logging['log']>;
+  namespace?: string;
+  storage: Storage;
+  valueSchema?: S;
+};
+
+export class GKV<
+  S extends StandardSchemaV1 | undefined = undefined,
+  V = S extends StandardSchemaV1 ? StandardSchemaV1.InferOutput<S> : any 
+> {
 	/**
 	 * The bucket name where data will be stored
 	 */
 	bucket: string;
+	/**
+	 * A function for constructing paths to the stored data.
+	 */
+	getBlobPath: (namespace: string, key: string) => string = (
+		namespace: string,
+		key: string,
+	) => `${namespace}/${key}.json`;
 	/**
 	 * A log to write to in Google Cloud Logging.
 	 * See docs [here](https://github.com/googleapis/nodejs-logging?tab=readme-ov-file#using-the-client-library)
@@ -22,13 +42,10 @@ export class GKV<K = string, V = unknown> {
 	 * See docs [here](https://github.com/googleapis/nodejs-logging?tab=readme-ov-file#using-the-client-library)
 	 */
 	storage: Storage;
-	/**
-	 * A function for constructing paths to the stored data.
-	 */
-	getBlobPath: (namespace: string, key: K) => string = (
-		namespace: string,
-		key: K,
-	) => `${namespace}/${key}.json`;
+  /**
+   * 
+   */
+  valueSchema: S | undefined;
 
 	constructor({
 		bucket,
@@ -36,24 +53,20 @@ export class GKV<K = string, V = unknown> {
 		getBlobPath,
 		namespace,
 		storage,
-	}: {
-		bucket: string;
-		log?: ReturnType<Logging["log"]>;
-		getBlobPath?: (namespace: string, key: K) => string;
-		namespace?: string;
-		storage: Storage;
-	}) {
+    valueSchema,
+	}: GKVOptions<S>) {
 		this.bucket = bucket;
 		if (log) this.log = log;
 		if (getBlobPath) this.getBlobPath = getBlobPath;
 		if (namespace) this.namespace = namespace;
 		this.storage = storage;
+    if (valueSchema) this.valueSchema = valueSchema;
 	}
 
 	/**
 	 * Get a value via its key
 	 */
-	public async get(key: K): Promise<{ key: K; value: V | undefined }> {
+	public async get(key: string): Promise<{ key: string; value: V | undefined }> {
 		try {
 			const [content] = await this.storage
 				.bucket(this.bucket)
@@ -74,10 +87,12 @@ export class GKV<K = string, V = unknown> {
 	 * Set a new value, or overwrite an existing value
 	 */
 	public async set(
-		key: K,
+		key: string,
 		value: V,
-	): Promise<{ key: K; value: V | undefined }> {
+	): Promise<{ key: string; value: V | undefined }> {
+    await this.validateInput(value)
 		const serializedValue = JSON.stringify(value);
+
 		try {
 			await this.storage
 				.bucket(this.bucket)
@@ -95,9 +110,10 @@ export class GKV<K = string, V = unknown> {
 	 * Update an existing value. Supports partial updates of deep objects
 	 */
 	public async update(
-		key: K,
+		key: string,
 		value: V,
-	): Promise<{ key: K; value: V | undefined }> {
+	): Promise<{ key: string; value: V | undefined }> {
+    await this.validateInput(value)
 		const { value: currentValue } = await this.get(key);
 
 		if (currentValue === undefined)
@@ -125,8 +141,8 @@ export class GKV<K = string, V = unknown> {
 	 * Delete a key value pair
 	 */
 	public async delete(
-		key: K,
-	): Promise<{ key: K; status: "deleted" | "error" }> {
+		key: string,
+	): Promise<{ key: string; status: "deleted" | "error" }> {
 		try {
 			await this.storage
 				.bucket(this.bucket)
@@ -139,6 +155,18 @@ export class GKV<K = string, V = unknown> {
 			return { key, status: "error" };
 		}
 	}
+
+  private async validateInput(value: V): Promise<void> {
+    if (this.valueSchema) {
+      let result = this.valueSchema['~standard'].validate(value);
+
+      if (result instanceof Promise) result = await result;
+
+      if (result.issues) {
+        throw new Error(JSON.stringify(result.issues, null, 2));
+      }
+    }
+  }
 
 	private async writeLog(message: string, severity: LogSeverity) {
 		if (!this.log) return;

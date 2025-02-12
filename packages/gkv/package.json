@@ -1,13 +1,15 @@
 {
   "name": "@hacksaw/gkv",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "KV for Google Cloud, backed by Cloud Storage",
   "type": "module",
   "exports": {
     ".": "./dist/index.js"
   },
   "types": "dist/types/index.d.ts",
-  "files": ["./dist/**"],
+  "files": [
+    "./dist/**"
+  ],
   "scripts": {
     "build": "tsc",
     "build:docs": "pnpm exec typedoc src/index.ts --plugin typedoc-github-theme",
@@ -16,7 +18,8 @@
     "format:fix": "pnpm biome format --write",
     "lint": "pnpm biome lint",
     "lint:fix": "pnpm biome lint --write",
-    "prepublish": "tsc"
+    "prepublish": "tsc",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "jacob@hacksaw.software",
@@ -28,16 +31,21 @@
   "dependencies": {
     "@google-cloud/logging": "^11.2.0",
     "@google-cloud/storage": "^7.14.0",
+    "@standard-schema/spec": "^1.0.0",
     "deepmerge-ts": "^7.1.3"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@types/node": "^22.10.3",
+    "arktype": "^2.0.4",
     "concurrently": "^9.1.2",
     "nodemon": "^3.1.9",
     "tsx": "^4.19.2",
     "typedoc": "^0.27.6",
     "typedoc-github-theme": "^0.2.1",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "valibot": "1.0.0-beta.9",
+    "vitest": "^3.0.5",
+    "zod": "^3.24.1"
   }
 }
