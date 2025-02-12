@@ -4,41 +4,35 @@ import * as v from 'valibot';
 import { GKV } from '@hacksaw/gkv';
 
 const storage = new Storage();
-const bucketName = process.env.GCS_BUCKET_NAME ?? "gkv-test";
+const bucket = process.env.GCS_BUCKET_NAME ?? "gkv-test";
 
-const RequestSchema = v.object({
-  key: v.string(),
-  value: v.unknown()
+const valueSchema = v.object({
+  name: v.string(),
+  age: v.number(),
 });
-
-type Key = v.InferInput<typeof RequestSchema>["key"];
-type Value = v.InferInput<typeof RequestSchema>["value"];
 
 export const kvService: HttpFunction = async (req, res) => {
   try {
-    const kv = new GKV<Key, Value>({
-      bucket: bucketName,
-      storage,
-    });
+    const kv = new GKV({ bucket, storage, valueSchema });
 
     switch (req.method) {
       case 'GET': {
-        const { key } = v.parse(v.object({ key: v.string() }), req.body);
+        const { key } = req.body;
         res.json(await kv.get(key));
         break;
       }
       case 'PUT': {
-        const { key, value } = v.parse(RequestSchema, req.body);
+        const { key, value } = req.body;
         res.json(await kv.set(key, value));
         break;
       }
       case 'PATCH': {
-        const { key, value } = v.parse(RequestSchema, req.body);
+        const { key, value } = req.body;
         res.json(await kv.update(key, value));
         break;
       }
       case 'DELETE': {
-        const { key } = v.parse(v.object({ key: v.string() }), req.body);
+        const { key } = req.body;
         res.json(await kv.delete(key));
         break;
       }
@@ -62,4 +56,5 @@ const handleError = (error: unknown, res: Response) => {
     }
   }
 }
+
 

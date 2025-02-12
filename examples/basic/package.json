@@ -1,12 +1,13 @@
 {
   "name": "basic",
   "version": "0.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "deploy": "gcloud functions deploy kvService --runtime nodejs18 --trigger-http --entry-point kvService --set-env-vars GCS_BUCKET_NAME=gkv-basic-example",
     "dev": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"pnpm run dev:compile\" \"pnpm run dev:serve\"",
-    "dev:compile": "NODE_ENV=development tsc --watch --resolveJsonModule",
+    "dev:compile": "NODE_ENV=development tsc --watch",
     "dev:serve": "NODE_ENV=development nodemon --watch ./dist/ --exec pnpm run preview",
     "preview": "functions-framework --source ./dist --target kvService --port 8080"
   },
