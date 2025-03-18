@@ -2,6 +2,7 @@
   "name": "basic",
   "version": "0.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "deploy": "gcloud functions deploy kvService --runtime nodejs18 --trigger-http --entry-point kvService --set-env-vars GCS_BUCKET_NAME=gkv-basic-example",
